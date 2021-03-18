@@ -1,0 +1,26 @@
+class Station(models.Model):
+    state = models.CharField("State",max_length=20, null=True)
+    code = models.CharField("Code",max_length=10,primary_key=True)
+    name = models.CharField("Name",max_length=30)
+    zone = models.CharField("Zone",max_length=10, null=True)
+    address = models.CharField("Address",max_length=50, null=True)
+
+    def __str__(self):
+        return self.name
+
+
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+
+            {% if request.session.member.is_superuser %}
+            <a href="addT"><button class="mr-5 hover:text-gray-900">Add Trains</button></a>
+            <a href="addST"><button class="mr-5 hover:text-gray-900">Add Stations</button></a>
+            <a href="addR"><button class="mr-5 hover:text-gray-900">Add Route</button></a>
+            <a href="addRT"><button class="mr-5 hover:text-gray-900">Add Route Station</button></a>
+
+            {% endif %}
+             <a href="search"><button class="mr-5 hover:text-gray-900">Search/Book Trains</button></a>
+             <a href="schedule"><button class="mr-5 hover:text-gray-900">Check Schedule</button></a>
+             <a href="pnr"><button class="mr-5 hover:text-gray-900">Check PNR</button></a>
+             <a href="cancel"><button class="mr-5 hover:text-gray-900">Cancel Seat</button></a>
