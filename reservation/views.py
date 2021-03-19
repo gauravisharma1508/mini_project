@@ -17,6 +17,7 @@ class Home(View):
     def post(self, request):
         return render(request, "home.html")
 
+
 class Register(View):
 
 
