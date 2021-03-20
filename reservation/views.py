@@ -123,3 +123,10 @@ def getTinfo(request):
         return render(request,'trinfo.html',{'data':a})
 
     return HttpResponse('<h1>DAta invalid<h1>')
+
+class Contact(View):
+    def get(self, request):
+        return render(request, "contact.html")
+
+    def post(self, request):
+        return render(request, "contact.html")
