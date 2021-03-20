@@ -1,7 +1,9 @@
-from django.shortcuts import render, redirect,HttpResponseRedirect
+from django.shortcuts import render, redirect,HttpResponseRedirect,HttpResponse
 from django.contrib.auth.hashers import make_password, check_password
 from django.views import View
-from .models import Members
+from .models import Members,Trains,RouteStation
+from .forms import Trsc
+import json
 # Create your views here.
 class Index(View):
     def get(self, request):
@@ -40,7 +42,9 @@ class Register(View):
         if not err_msg:
             member.password = make_password(member.password)
             member.register()
-            return redirect('login')
+            request.session['username'] = member.username
+            request.session['member'] = member.id
+            return redirect('home')
         else:
             data = {'error': err_msg, 'values': value}
             return render(request, "register.html",data)
@@ -97,3 +101,25 @@ def logout(request):
     request.session.clear()
     return redirect('index')
 
+
+class Schedule(View):
+    def get(self, request):
+
+        a = Trains.objects.all()
+        return render(request, "schedule.html",{'a':a})
+
+    def post(self, request):
+        return render(request, "schedule.html", {'a': a})
+
+
+def getTinfo(request):
+    form=Trsc(request.GET)
+    if form.is_valid():
+        data=form.cleaned_data
+        tno=data['tnum']
+        a=RouteStation.objects.filter(tno=tno).order_by('order')
+
+
+        return render(request,'trinfo.html',{'data':a})
+
+    return HttpResponse('<h1>DAta invalid<h1>')
